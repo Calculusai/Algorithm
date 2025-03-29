@@ -10,7 +10,7 @@ export default defineUserConfig({
 
   head: [
     // 配置站点图标
-    ['link', { rel: 'icon', type: 'image/png', href: 'https://images.hoshinoai.xin/icon/algorithm.webp' }],
+    ['link', { rel: 'icon', type: 'image/png/webp', href: 'https://images.hoshinoai.xin/icon/algorithm.webp' }],
   ],
 
   bundler: viteBundler(),
