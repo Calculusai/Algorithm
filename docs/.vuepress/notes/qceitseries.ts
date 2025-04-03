@@ -13,7 +13,8 @@ const qceitseries = defineNoteConfig({
                         {
                               text: 'Scratch',
                               icon: 'simple-icons:scratch',
-                              collapsed: true,
+                              collapsed: false,
+                              link: '/qceitseries/Scratch/',
                               prefix: '/qceitseries/Scratch',
                               items: [
                                     {
@@ -26,6 +27,16 @@ const qceitseries = defineNoteConfig({
                                                 'Scratch12'
                                           ],
                                     },
+                                    {
+                                          text: 'Scratch三级',
+                                          icon: 'simple-icons:scratch',
+                                          collapsed: true,
+                                          prefix: '/qceitseries/Scratch/Scratch3',
+                                          items: [
+                                                'scratch31',
+                                                'scratch32'
+                                          ],
+                                    },
                               ]
                         },
                         //Scratch 结束
@@ -33,7 +44,7 @@ const qceitseries = defineNoteConfig({
                         {
                               text: 'Python',
                               icon: 'akar-icons:python-fill',
-                              collapsed: true,
+                              collapsed: false,
                               prefix: '/qceitseries/Python',
                               items: [
                                     {
@@ -70,11 +81,11 @@ const qceitseries = defineNoteConfig({
                               ]
                         },
                         //Python结束
-                        //CPP开始
+                        //CPP开始   
                         {
                               text: 'CPP',
                               icon: 'mdi:language-cpp',
-                              collapsed: true,
+                              collapsed: false,
                               prefix: '/qceitseries/CPP',
                               items: [
                                     {

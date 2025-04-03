@@ -1,5 +1,5 @@
 ---
-title: Scratch一级知识点
+title: Scratch1级知识点
 tags:
     - 电子协会考级
     - Scratch一级
