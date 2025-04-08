@@ -317,11 +317,532 @@ A. c    B. d    C. e[+将十进制数30转换为十六进制数�
         - Excel 和一般文字编辑软件都可以读入或保存CSV文件。
 :::
 ### 2.1 一维数据
-### 2.2 二维数据
-### 2.3 CSV文件
-### 2.4 简单的文件读写
-## 3 异常处理
+:::tip  知识点详解
+- 一维数据由对等关系的有序或无序数据构成，采用线性方式组织，对应数学中的数组的概念。
+- 一维数据具有线性特点。任何表现为序列或集合的对象都可以看作一维数据。
+- 在Python中，一维数据主要采用列表形式表示。
+    ```python
+    num = [1, 2, 3, 4, 5]
+    print(num)
+    ```
+    + 运行结果：
+    ```console
+    [1, 2, 3, 4, 5]
+    ```
+- 一维数据的存储：
+    - 采用空格分隔元素；
+    - 采用逗号分隔元素（常用，CSV格式）；
+    - 采用换行分隔元素；
+    - 采用其他特殊符号（比如；）分隔元素。
+    - CSV格式就是采用逗号分隔值，它是一种通用的、相对简单的文件格式，广泛应用，Excel、记事本等大部分编辑器支持直接读入或保存CSV格式文件。CSV文件的扩展名为.csv。
+    - 1. 将列表对象输出为CSV格式文件，示例如下。
+        ```python
+        num = ['北京','上海','广州','深圳']
+        f = open('num.csv', 'w')
+        for i in num:
+            f.write(str(i) + ',')
+        f.close()
+        ```
+        - 在上述Python程序的同目录下，如果存在city.csv文件，执行上述程序，将覆盖city.csv 文件（如果想非覆盖，将'w'改为'a'即可）；如果不存在city.csv 文件，执行上述程序后，将产生一个city.csv文件。
+        - 打开city.csv文件，内容如下。
+            ```console
+            北京,上海,广州,深圳,
+            ```
+        - ==注意==：CSV文件中，每行的最后一个元素后面有一个逗号。
+    2. 使用with语句打开文件，处理结束后会自动关闭被打开的文件。上述代码用with语句改写如下。
+        ```python
+        num = ['北京','上海','广州','深圳']
+        with open('num.csv', 'w') as f:
+            for i in num:
+                f.write(str(i) + ',')
+        ```
+    3. 从CSV格式文件中读出数据，表示为列表对象，示例如下。
+        ```python
+        f=open('city.csv','r')
+        c=f.read().strip().split(',')
+        f.close()
+        print(c)
+        ```
+        - 上述代码用with语句改写如下。
+            ```python
+            with open('city.csv','r') as f:
+                c=f.read().strip().split(',')
+            print(c)
+            ```
+:::
+:::info  拓展知识
+#### 2.1.1 open()函数
+- open()函数用于打开文件，语法格式如下。
+    ```python
+    open(filename, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+    ```
+    - filename：文件名，包含路径。
+    - mode：打开模式，默认为只读模式。
+    - buffering：设置缓冲。
+    - encoding：一般使用utf-8。
+    - errors：报错级别。
+    - newline：区分换行符。
+    - closefd：传入的file参数将被关闭，应为False。
+    - opener：设置自定义开启器。
+- open()函数返回一个文件对象，通过该文件对象可以对文件进行读写操作。
+#### 2.1.2 read()方法
+- read()方法用于读取文件中的内容，语法格式如下。
+    ```python
+    file.read([size])
+    ```
+    - size：表示读取的字节数。
+    - 如果没有指定size参数，将读取整个文件。
+    - 返回值为读取的字符串。
+#### 2.1.3 write()方法
+- write()方法用于向文件中写入内容，语法格式如下。
+    ```python
+    file.write(str)
+    ```
+    - str：表示要写入的字符串。
+    - 返回值为写入的字符数。
+#### 2.1.4 close()方法
+- close()方法用于关闭文件，语法格式如下。
+    ```python
+    file.close()
+    ```
+    - 关闭后文件不能再进行读写操作，否则会出现ValueError异常。
+#### 2.1.5. strip()方法
+- strip()方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列，语法格式如下。
+    ```python
+    str.strip([chars])
+    ```
+    - chars：表示移除字符串头尾指定的字符序列。
+    - 返回值为移除字符串头尾指定的字符序列后生成的新字符串。
+#### 2.1.6. split()方法
+- split()方法通过指定分隔符对字符串进行切片，如果参数num有指定值，则分隔num+1个子字符串，语法格式如下。
+    ```python
+    str.split(str="", num=string.count(str))
+    ```
+    - str：表示分隔符，默认为所有的空字符，包括空格、换行(\n)、制表符(\t)等。
+    - num：表示分割次数。
+    - 返回值为分割后的字符串列表。
+#### 2.1.7. join()方法
+- join()方法用于将序列中的元素以指定的字符连接生成一个新的字符串，语法格式如下。
+    ```python
+    str.join(sequence)
+    ```
+    - sequence：要连接的元素序列。
+    - 返回值为通过指定字符连接序列中元素后生成的新字符串。
+#### 2.1.8. with语句
+- with语句用于简化文件读写操作，语法格式如下。
+    ```python
+    with open(filename, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None) as file:
+        file.read()
+    ```
+    - filename：文件名，包含路径。
+    - mode：打开模式，默认为只读模式。
+    - buffering：设置缓冲。
+    - encoding：一般使用utf-8。
+    - errors：报错级别。
+    - newline：区分换行符。
+    - closefd：传入的file参数将被关闭，应为False。
+    - opener：设置自定义开启器。
+    - file：文件对象。
+    - file.read()：读取文件中的内容。
+    - file.write(str)：向文件中写入内容。
+    - file.close()：关闭文件。
+:::
+:::caution  易错点
+1. 一维数据的概念掌握不清晰，导致送分题答题错误率较高。
+2. 要理解清楚基础打开文件和with语句打开文件代码每一行的含义。 
+:::
+#### 2.1.9 模拟考题
+:::important 考题1 单选题
+有如下程序：
+```python
+ls=[' 武汉','温州','香港','重庆']
+f=open('city.csv','w')
+f.write(','.join(ls)+'\n')
+f.close()
+```
+下列说法正确的是（     ）。
+- A. 有可能抛出错误
+- B. 将输出字符串
+- C. 当前程序的功能是将CSV文件表示为列表对象
+- D. 当前程序的功能是将列表对象输出到CSV文件[+有如下程序D]
+:::
+[+有如下程序D]:
+    解析：当前程序的功能是将列表对象写到city.csv文件中，所以选D。
 
+:::important 考题2 判断题
+在Python中，为了确保列表中每个写入CSV文件中的数据，在电子表格软件中打开时都作为一个单元格存在，可以使用```file.write(','.join(name)+'\n')```语句（file为文件变量名）。（     ）[+答在Python中，为了确保列表中每个写入CSV文件中的数据正确]
+:::
+[+答在Python中，为了确保列表中每个写入CSV文件中的数据正确]:
+    解析：数据以“，”合并成字符串，字符串末尾加换行符。
+### 2.2 二维数据
+:::tip  知识点详解
+- 二维数据由多个一维数据构成，是一维数据的组合形式，可以用二维列表表示。列表的每个元素对应二维数据的一行，这个元素本身也是列表。
+- 二维数据一般采用相同的数据类型存储数据。
+1. 二维数据的表示：
+    ```python
+    ls=[['北京','上海','广州','深圳'],
+    ['11','22','33','44']]
+    print(ls)
+    ```
+    + 运行结果：
+    ```console
+    [['北京', '上海', '广州', '深圳'], 
+    ['11', '22', '33', '44']]
+    ```
+    - 二维数据用CSV格式存储。CSV文件的每一行是一维数据，整个CSV文件是一个二维数据
+2. 将列表对象输出为CSV格式，示例如下
+    ```python
+    ls=[['北京','上海','广州','深圳'],
+    ['11','22','33','44']]
+    f=open('city.csv','w')
+    for i in ls:
+        f.write(','.join(i)+'\n')
+    f.close()
+    ```
+    - 上述代码用with语句改写如下。
+        ```python
+        ls=[['北京','上海','广州','深圳'],
+        ['11','22','33','44']]
+        with open('city.csv','w') as f:
+            for i in ls:
+                f.write(','.join(i)+'\n')
+        ```
+    - 在上述Python程序的同目录下，如果存在cj.csv文件，运行上述程序后，将覆盖cj.csv文件；如果不存在cj.csv文件，运行上述程序后，将产生一个cj.csv 文件
+3. 从CSV格式文件读出数据，表示为列表对象，示例如下
+    ```python
+    with open('city.csv','r') as f:
+        ls=[]
+        for line in f:
+            ls.append(line.strip().split(','))
+    print(ls)
+    ```
+    + 运行结果：
+    ```console
+    [['北京', '上海', '广州', '深圳'],
+    ['11', '22', '33', '44']]
+    ```
+:::
+:::info  拓展知识
+#### 2.2.1 append()方法
+- append()方法用于在列表末尾添加新的对象，语法格式如下。
+    ```python
+    list.append(obj)
+    ```
+    - obj：表示要添加到列表末尾的对象。
+    - 返回值为None。
+#### 2.2.2 其余方法同一维数据
+:::
+:::caution  易错点
+1. 如果对二维数据的概念掌握不清晰，会导致送分题答题错误率较高。
+2. 要理解上述两段代码每一行的含义。
+:::
+#### 2.2.3 模拟考题
+:::important 考题1 单选题
+要对二维列表所有的数据进行格式化输出，打印成表格形状，程序段如下：画线处的代码应该为（     ）。
+```python
+ls = [[' 金京',89],[ ' 吴树海',80],[ '王津津',90]]
+for row in range(len(ls))：
+    for column in range(len(ls[row]))：
+        print(_______,end="\t")
+print()
+```
+- A. ```ls[row][column]```[+要对二维列表所有的数据进行格式化输出A]
+- B. ```ls[row]```
+- C. ```ls[column]```
+- D. ```ls[column][row]```
+:::
+[+要对二维列表所有的数据进行格式化输出A]:
+    解析：根据二维数据的切片可得答案。
+::::important 考题2 编程题‘
+请读取1班和2班语文学科的成绩文件score.csv的数据，数据内容如下图所示。
+
+| 班级 | 语文成绩 |
+|:---:|:---:|
+| 2 | 56 |
+| 1 | 96 |
+| 2 | 78 |
+| 2 | 99 |
+| 1 | 67 |
+| 2 | 89 |
+| 1 | 90 |
+| 1 | 65 |
+| 2 | 60 |
+- 下列代码实现了读取数据并分别统计1班和2班语文成绩的和，请你补全代码。
+:::code-tabs
+@tab 待补全
+```python :collapsed-lines=5
+import csv 
+with open("    ①    ") as f:
+    rows = list(csv.reader(f))
+    sum1 = 0
+    sum2 = 0
+    for row in rows[1:]:
+        if int(    ②    ) == 1:
+            sum1 += int(row[1])
+        else:
+            sum2 += int(row[1])
+    print(    ③   )
+```
+@tab Python
+```python :collapsed-lines=5
+import csv 
+# 打开score.csv文件，使用csv模块读取
+with open("score.csv") as f:  # ①处填入"score.csv"
+    rows = list(csv.reader(f))  # 将CSV文件内容转换为列表
+    sum1 = 0  # 初始化1班总分
+    sum2 = 0  # 初始化2班总分
+    for row in rows[1:]:  # 从第二行开始遍历(跳过表头)
+        if int(row[0]) == 1:  # ②处填入"row[0]" - 判断班级是否为1班
+            sum1 += int(row[1])  # 1班成绩累加
+        else:
+            sum2 += int(row[1])  # 2班成绩累加
+    print(f"1班总分：{sum1}，2班总分：{sum2}")  # ③处填入输出语句
+```
+::::
+### 2.3 CSV文件
+:::tip  知识点详解
+- CSV（Comma-Separated Values）格式是一种通用的、相对简单的文件格式，广泛应用，Excel、记事本等大部分编辑器支持直接读入或保存CSV格式文件。CSV文件的扩展名为.csv。
+- CSV文件的每一行是一维数据，整个CSV文件是一个二维数据。
+- CSV文件的每一行是一维数据，整个CSV文件是一个二维数据。
+    1. 读取CSV文件，示例如下。
+        ```python
+        import csv
+        with open('city.csv','r') as f:
+            rows = list(csv.reader(f))
+        print(rows)
+        ```
+        + 运行结果：
+        ```console
+        [['北京', '上海', '广州', '深圳'], ['11', '22', '33', '44']]
+        ```
+    2. 将列表对象输出为CSV格式，示例如下。
+        ```python
+        import csv
+        ls=[['北京','上海','广州','深圳'],
+        ['11','22','33','44']]
+        with open('city.csv','w') as f:
+            writer = csv.writer(f)
+            for row in ls:
+                writer.writerow(row)
+        ```
+:::
+:::info  拓展知识
+#### 2.3.1 csv模块
+- csv模块用于处理CSV格式文件，语法格式如下。
+    ```python
+    import csv
+    ```
+    - csv.reader()：读取CSV格式文件。
+    - csv.writer()：写入CSV格式文件。
+:::
+### 2.4 简单的文件读写
+:::tip  知识点详解
+#### 2.4.1 将数据存储于本地CSV文件
+1. 方法1：单行写入
+    ```python
+    with open('city.csv','w') as f:
+        f.write('北京,上海,广州,深圳')
+    ```
+    - 在Windows里保存的CSV文件是每空一行存储一条数据，使用newlines='' 可保证存储的数据没有空行。
+2. 方法2：多行写入
+    ```python
+    with open('city.csv','w') as f:
+        f.write('北京\n')
+        f.write('上海\n')
+        f.write('广州\n')
+        f.write('深圳\n')
+    ```
+#### 2.4.2  read()函数的使用
+1. 参数详解
+    - size：表示读取的字节数。
+    - 如果没有指定size参数，将读取整个文件。
+    - 返回值为读取的字符串。
+2. 示例代码
+    ```python
+    with open('city.csv','r') as f:
+        data = f.read() # 从文件指针所在的位置，读到文件结尾
+        data3 = f.read(5) #  # 读取到了0个字节，因为文件指针已经读到文件尾部
+    print(data)
+    with open('city.csv','r') as f:
+        data1 = f.read(5) # 从文件指针所在的位置开始读5个字节
+        data2 = f.read() # 从文件指针所在的位置读到文件结尾
+    print(data1)
+    print(data2)
+    ```
+    - 运行结果：
+    ```console
+    北京,上海,广州,深圳
+
+    北京,上海
+    ,广州,深圳
+    ```
+#### 2.4.3  read()与readline()、readlines()的区别
+1. read()
+    - 一次读取整个文件，将文件指针移动到文件末尾。
+    - 返回值为读取的字符串。
+2. readline()
+    - 一次读取一行，将文件指针移动到下一行。
+    - 返回值为读取的字符串。
+3. readlines()
+    - 一次读取整个文件，将文件指针移动到文件末尾。
+    - 返回值为读取的字符串列表。
+#### 2.4.4  reader()函数
+- reader()函数用于读取CSV格式文件，语法格式如下。
+    ```python
+    csv.reader(csvfile, dialect='excel', **fmtparams)
+    ```
+    - csvfile （必需参数）：一个可迭代的文件对象，通常是通过 open() 函数以读取模式('r')打开的文件，建议在打开文件时指定 newline='' ，避免不同操作系统换行符的问题
+    - dialect='excel' （可选参数）：指定读取 CSV 文件的格式方言，默认值是 'excel'，这是最常用的格式主要特点：
+        - 使用逗号(,)作为字段分隔符
+        - 使用双引号(")作为引用字符
+    - 自动处理换行符
+    - **fmtparams （可选参数）：用于覆盖 dialect 的格式设置，常用的格式参数包括：
+        - delimiter ：字段分隔符
+        - quotechar ：引用字符
+        - skipinitialspace ：是否跳过字段开头的空格
+    - 返回值为CSV格式文件的读取器对象。
+- 导入模块csv之后，我们将CSV文件打开，并将结果文件对象存储在f中。然后，调用csv.reader()，将前面存储的文件对象作为实参传递给它，从而创建一个与该文件相关联的阅读器（reader）对象，等待进一步处理，如下例所示
+    ```python
+    import csv
+    with open('city.csv','r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            print(row)
+    ```
+    - 运行结果：
+    ```console
+    ['北京', '上海', '广州', '深圳']
+    ['11', '22', '33', '44']
+    ```
+#### 2.4.5  writer()函数
+- writer()函数用于写入CSV格式文件，语法格式如下。
+    ```python
+    csv.writer(csvfile, dialect='excel', **fmtparams)
+    ```
+    - csvfile （必需参数）：一个支持迭代的文件对象通常是通过 open() 函数打开的文件，建议使用 'w' 模式打开文件用于写入
+    - dialect='excel' （可选参数）：用于指定 CSV 文件的格式方言，默认值是 'excel'，这种格式最常用
+        - 主要特点：
+            - 使用逗号(,)作为分隔符
+            - 使用双引号(")作为引用字符
+            - Windows 系统使用 '\r\n' 作为行结束符
+    - **fmtparams （可选参数）：用于覆盖 dialect 的格式设置，常用的格式参数包括：
+        - delimiter ：字段分隔符，默认为逗号
+        - quotechar ：引用字符，默认为双引号
+        - lineterminator ：行结束符
+        - quoting ：引用方式
+    - 返回值为CSV格式文件的写入器对象。
+    1. 通过write()函数向文件中写入一行数据
+        - 基础写法
+            ```python
+            import csv
+            f=open(r"city.csv",'w')
+            f.write('新疆，乌鲁木齐，万达广场\n') # 写入一行数据
+            f.close()
+            ```
+        - with语句写法
+            ```python
+            import csv
+            with open(r"city.csv", 'w') as f:
+                f.write('新疆，乌鲁木齐，万达广场\n') # 写入一行数据
+            ```
+    2. 通过writerows()函数向文件中写入多行数据
+        - 基础写法
+            ```python
+            import csv
+            f=open(r"city.csv",'w')
+            writer=csv.writer(f)
+            writer.writerows([['北京','上海','广州','深圳'],['11','22','33','44']]) # 写入多行数据
+            f.close()
+            ```
+        - with语句写法
+            ```python
+            import csv
+            with open(r"city.csv", 'w') as f:
+                writer=csv.writer(f)
+                writer.writerows([['北京','上海','广州','深圳'],['11','22','33','44']]) # 写入多行数据
+            ```
+#### 2.4.6   write()和writelines()的区别
+1. write()
+    - 一次写入一个字符串，将字符串写入文件中。
+    - 返回值为写入的字符数。
+2. writelines()
+    - 一次写入多个字符串，将字符串列表写入文件中。
+    - 返回值为写入的字符数。
+    - 示例代码
+        ```python :collapsed-lines=5
+        with open('city.csv','w') as f:
+            f.write('北京,上海,广州,深圳\n') # 写入一行数据
+            f.writelines(['11,22,33,44\n']) # 写入一行数据
+        ```
+        - 运行结果：
+        ```console
+        北京,上海,广州,深圳
+        11,22,33,44
+        ```
+:::
+:::caution  易错点
+1. 注意对比下列函数或方法的用法与区别：open()、write()、writelines()、writer()、writerow()、writerows()、read()、reader()。
+2. 注意对比下列函数或方法的用法与区别：read()、reader()。
+:::
+#### 2.4.7  模拟考题
+:::important 考题1 判断题
+在Python中，可以使用下面的代码读取文件中的数据到列表。（     ） [+可以使用下面的代码读取文件中的数据到列表正确]
+```python
+file = open('score.csv','r')
+name = file.read().strip('\n').split(',')
+file.close()
+```
+:::
+[+可以使用下面的代码读取文件中的数据到列表正确]:
+    解析：这是在考核read()函数的用法。
+::::important 考题2 编程题
+- 请读取文件plant.csv中的数据，数据内容如下图所示
+
+    | 植物编号 | 生长情况 |
+    |:---:|:---:|
+    | A32 | 5 |
+    | A09 | 5 |
+    | A17 | 9 |
+    | A43 | 6 |
+    | A06 | 3 |
+    | B19 | 5 |
+    | B22 | 7 |
+    | C08 | 8 |
+    | C17 | 8 |
+    | C36 | 4 |
+- 下列代码实现了读取“植物编号”和“生长情况”信息，输出“生长情况”达到6的数量，请你补全代码。
+    :::code-tabs
+    @tab 待补全
+    ```python :collapsed-lines=5
+    import csv
+    with open("plant.csv") as f:
+        rows = list(   ①  (f))
+        s=0
+        for row in rows[1:]:
+            if(   ②    >= 6):
+                s=s + 1
+    print(s)
+    ```
+    @tab Python
+    ```python :collapsed-lines=5
+    import csv  # 导入csv模块用于处理CSV文件
+
+    # 打开plant.csv文件并读取内容
+    with open("plant.csv") as f:
+        rows = list(csv.reader(f))  # ①处填入csv.reader，将CSV文件内容转换为列表
+        s = 0  # 初始化计数器，用于统计生长情况大于等于6的植物数量
+        
+        # 从第二行开始遍历(跳过表头)
+        for row in rows[1:]:
+            # ②处填入int(row[1])，将生长情况（第2列）转换为整数后与6比较
+            if(int(row[1]) >= 6):  
+                s = s + 1  # 如果生长情况大于等于6，计数器加1
+                
+    print(s)  # 输出统计结果
+    ```
+    :::
+::::
+## 3 异常处理
 :::tip 学习要点
 会使用try…except…进行异常处理。
 :::
