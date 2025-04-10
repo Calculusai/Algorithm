@@ -37,6 +37,7 @@ const qceitseries = defineNoteConfig({
                                                 'scratch32'
                                           ],
                                     },
+
                               ]
                         },
                         //Scratch 结束
@@ -77,7 +78,16 @@ const qceitseries = defineNoteConfig({
                                                 'python32'
                                           ],
                                     },
-
+                                    {
+                                          text: 'Python四级',
+                                          icon: 'akar-icons:python-fill',
+                                          collapsed: true,
+                                          prefix: '/qceitseries/Python/python4',
+                                          items: [
+                                                'python41',
+                                                'python42'
+                                          ],
+                                    },
                               ]
                         },
                         //Python结束
