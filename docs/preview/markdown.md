@@ -322,3 +322,14 @@ app.appendChild(window.document.createElement('small')).textContent = a
     也可以由多个段落组成
 
 [^second]: 脚注文字。
+
+## 可视化 
+:::details 选择可视化
+<div style="height: 500px; width: 100%;">
+    <iframe src="https://visualgo.net/zh/sorting" width="100%" height="100%"
+        style="  width: 125%;height: 125%;max-width: 125% !important;max-height: 125% !important;transform: scale(0.8);transform-origin: top left;border: none;"></iframe>
+
+</div>
+<a href="https://visualgo.net/zh/sorting" target="_blank">全屏查看</a>
+
+:::

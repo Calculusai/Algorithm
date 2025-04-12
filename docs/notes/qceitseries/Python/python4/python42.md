@@ -897,6 +897,165 @@ print(climb_stairs(4))
         3. 然后，左边和右边的数据可以独立排序。对于左边的数据，又可以取一个分界值，将该部分数据再分成左、右两部分，同样在左边放置较小值，右边放置较大值。右边的数据也可以做类似处理。
         4. 重复上述过程，可以看出，这是一个递归定义。通过递归将左边排好序后，再通过递归将右边排好序。当左、右两部分分别排序完成后，整个序列数据的排序也就完成了。
     - 快速排序的排序步骤：设要排序的数据是```A[0]…A[N-1]```，首先任意选取一个数据（通常选用数组的第一个数）作为关键数据，然后将所有比它小的数都放到它左边，所有比它大的数都放到它右边，这个过程称为一遍快速排序。值得注意的是，快速排序不是一种稳定的排序算法，也就是说，多个相同的值的相对位置也许会在算法结束时发生变动。
+    - 快速排序算法的实现如下所示。
+        :::code-tabs
+        @tab 伪代码
+        ```python :collapsed-lines=5
+        算法 快速排序(数组 arr)
+            如果 数组长度 <= 1 则
+                返回 arr
+            否则
+                选择基准值 = arr[0]
+                创建空数组 left
+                创建空数组 right
+        
+                对于 i 从 arr[1] 到 arr[末尾] 执行
+                    如果 i < 基准值 则
+                        将 i 添加到 left
+                    否则
+                        将 i 添加到 right
+                
+                返回 快速排序(left) + [基准值] + 快速排序(right)
+        结束算法
+
+        调用示例：
+        输入数组 = [1, 4, 2, 3, 6, 5]
+        输出 快速排序(输入数组)
+        ```
+        @tab Python
+        ```python :collapsed-lines=5
+        def quick_sort(arr): # 快速排序
+            if len(arr) <= 1: # 如果数组长度小于等于1，则直接返回
+                return arr
+            else: 
+                pivot = arr[0] # 选择基准值
+                left = [] # 创建分治左空数组
+                right = [] # 创建分治右空数组
+                for i in arr[1:]: # 遍历数组
+                    if i < pivot:
+                        left.append(i)
+                    else:
+                        right.append(i)
+                return quick_sort(left) + [pivot] + quick_sort(right) # 返回分治左数组+基准值+分治右数组
+        print(quick_sort([1, 4, 2, 3, 6, 5]))
+        ```
+        @tab Python
+        ```python :collapsed-lines=5
+        # 划分分区（非就地划分）
+        # 这个实现使用了额外的空间来存储分区结果
+        def partition(nums=list):
+            # 选择第一个元素作为基准值（pivot）
+            pivot = nums[0]                    
+            
+            # 使用列表推导式创建小于基准值的子列表
+            # nums[1:]表示从第二个元素开始遍历，避开基准值
+            lo = [x for x in nums[1:] if x < pivot]     
+
+            # 使用列表推导式创建大于等于基准值的子列表
+            hi = [x for x in nums[1:] if x >= pivot]    
+            
+            # 返回三元组：小于基准值的列表、基准值、大于等于基准值的列表
+            return lo, pivot, hi
+
+        # 快速排序主函数
+        def quick_sort(nums):
+            # 基本情况：如果列表长度小于等于1，直接返回
+            # 这是递归的终止条件
+            if len(nums) <= 1:
+                return nums
+                
+            # 调用partition函数进行分区
+            # 获取小于基准值的列表(lo)、基准值(pivot)和大于等于基准值的列表(hi)
+            lo, pivot, hi = partition(nums)
+            
+            # 递归地对左右两个子列表进行排序，并将结果与基准值合并
+            # 最终返回完整的排序列表
+            return quick_sort(lo) + [pivot] + quick_sort(hi)
+
+        # 测试代码
+        lis = [7, 5, 0, 6, 3, 4, 1, 9, 8, 2]  # 创建测试列表
+        print(quick_sort(lis))                 # 打印排序后的结果
+        ```
+        @tab Python
+        ```python :collapsed-lines=5
+        # 使用了原地排序（in-place sorting），不需要额外的存储空间
+        # 快速排序主函数
+        # list: 待排序的列表
+        # p: 排序的起始位置
+        # r: 排序的结束位置
+        def quicksort(list, p, r):
+            if p < r:  # 当起始位置小于结束位置时才需要排序
+                q = partion(list, p, r)  # 获取分区点
+                quicksort(list, p, q)    # 递归排序左半部分
+                quicksort(list, q+1, r)  # 递归排序右半部分
+
+        # 分区函数：将列表分成两部分，左边部分的值都小于等于基准值，右边部分的值都大于基准值
+        # list: 待分区的列表
+        # p: 分区的起始位置
+        # r: 分区的结束位置（也是基准值的位置）
+        def partion(list, p, r):
+            i = p - 1  # i 用于记录小于等于基准值的元素的最后一个位置
+            
+            # 遍历从p到r-1的所有元素
+            for j in range(p, r):
+                # 如果当前元素小于等于基准值
+                if list[j] <= list[r]:
+                    i += 1  # 小于等于基准值的元素数量加1
+                    # 将当前元素与第i个位置的元素交换
+                    list[i], list[j] = list[j], list[i]
+            
+            # 将基准值放到正确的位置（i+1）
+            list[i+1], list[r] = list[r], list[i+1]
+            return i  # 返回基准值的最终位置
+
+        # 测试代码
+        list1 = [5, 3, 7, 6, 4, 1, 0, 2, 9, 10, 8]  # 创建测试列表
+        quicksort(list1, 0, len(list1)-1)  # 调用快速排序函数
+        print(list1)  # 打印排序后的列表
+        ```
+        :::
+:::details 快速排序可视化
+<div style="height: 500px; width: 100%;">
+    <iframe src="https://visualgo.net/zh/sorting" width="100%" height="100%"
+        style="  width: 125%;height: 125%;max-width: 125% !important;max-height: 125% !important;transform: scale(0.8);transform-origin: top left;border: none;"></iframe>
+
+</div>
+<a href="https://visualgo.net/zh/sorting" target="_blank">全屏查看</a>
+
+:::
 ::::
+:::caution 易错点
+1. 在理解递归算法的基础上理解分治算法。
+2. “分”“治”的概念必须理解。
+:::
+#### 4.1.4  模拟考题-分治算法
+:::important 考题1 单选题
+以下函数是将一个整数划分为若干个正整数相加的例子，如4=4，1+3=4，1+1+2=4，2+2=4，1+1+1+1=4共5种，则if条件里应补充的选项为（     ）。
+```python
+def function(b,a):  #b 为待划分的整数，a为正整数加数的个数上限
+    if(_______):
+        return 1
+    elif a==b and b>1:
+        return function(b,b-1)+1
+    elif b<a:
+        return function(b,b)
+    elif b>a:
+        return function(b,a-1)+function(b-a,a)
+```
+- A. ```a==1 or b ==1```[+则if条件里应补充的选项为A]    B. ```a==0 or b ==1```
+- C. ```a==1 or b ==0```    D. ```a==1 and b ==1```
+:::
+[+则if条件里应补充的选项为A]:
+:::important 考题2 单选题
+一个袋子里有128枚硬币，其中一枚是假币，并且假币和真币外观一模一样，仅凭肉眼无法区分，仅知道假币比真币轻一些，我现在借助天平来查找假币，最多称几次可以找到假币？
+- A. 5    B. 6    C. 7[+我现在借助天平来查找假币，最多称几次可以找到假币C]    D. 8
+:::
+[+我现在借助天平来查找假币，最多称几次可以找到假币C]:
+    解析：将n枚硬币分成两等份，然后放到天平的两端，则假币在较轻的那一端；然后将较轻的那一端的硬币再分成两等份，再放到天平的两端进行比较，假币还是在较轻的那一端；直到最后只剩下两枚硬币了，分别放到天平的两端，轻的那一枚就是假币。当然，最后也可能剩下3枚硬币，我们可以从这3枚硬币中任意拿出来一枚，然后将剩下的两枚放到天平的两端，如果天平是平的，则说明拿出来的那枚硬币就是假币；如果天平不是平的，则轻的那一端是假币。所以，128枚硬币可以这样分解：128→64→32→16→8→4→2→1,即最多称7次可以找到假币。
+:::important 考题3 判断题
+使用分治算法分解的子问题是相互独立的、无关联的，子问题的解可以合并为原问题的解。（     ）[+使用分治算法分解的子问题是相互独立的正确]
+:::
+[+使用分治算法分解的子问题是相互独立的正确]:
+    解析：分治算法的基本思想是将一个规模为n的问题分解为k个规模较小的子问题，这些子问题相互独立且与原问题性质相同。求出子问题的解，就可得到原问题的解。
 ## 5 算法优化
 ## 6 第三方库（模块）的获取、安装与调用

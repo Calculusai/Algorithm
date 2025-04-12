@@ -1920,7 +1920,7 @@ for i (0~n-1)   # 共进行n-1遍排序
     for j (i+1 ~ n)     # 共i遍
         if 当找到一个比k位置上元素比i位置上小的元素，则：
             用k记录J的位置
-        if i != K, 则：
+    if i != K, 则：
             交换i，k位置上的元素
 ```
 @tab Python
@@ -1932,7 +1932,7 @@ for i in range(0, count-1):
     for j in range(i + 1, count):
         if a[k] > a[j]:
             k = j
-        if k!=i:
+    if k!=i:
         a[k], a[i] = a[i], a[k]
 print(a)
 ```
