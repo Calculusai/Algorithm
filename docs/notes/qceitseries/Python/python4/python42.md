@@ -1229,4 +1229,110 @@ def function(b,a):  #b 为待划分的整数，a为正整数加数的个数上�
 1. 熟记时间复杂度与空间复杂度的计算实例。
 2. 理解时间复杂度与空间复杂度的概念。
 :::
+#### 5.2.3  模拟考题-时间复杂度与空间复杂度
+:::important 考题1 单选题
+在使用Python编写程序时，提到的“时间复杂度”中的“时间”一般是指 （     ）。  
+- A. 算法执行过程中所需要的基本运算时间
+- B. 算法执行过程中编译代码所花时间
+- C. 算法执行过程中所需要的基本运算次数[+提到的“时间复杂度”中的“时间”一般是指C]
+- D. 程序代码的复杂程度
+:::
+[+提到的“时间复杂度”中的“时间”一般是指C]:
+    解析：“时间复杂度”中的“时间”是指算法执行过程中所需要的基本运算次数。
+:::important 考题2 判断题
+如果执行算法所需的临时空间不会随变量的变化而变化，那么该算法的空间复杂度为一个常量。（     ）[+那么该算法的空间复杂度为一个常量正确]
+:::
+[+那么该算法的空间复杂度为一个常量正确]:
+    解析：如果执行算法所需的临时空间不会随变量的变化而变化，其算法的空间复杂度为常量O(1)。
 ## 6 第三方库（模块）的获取、安装与调用
+:::tip 学习要点
+1. 理解模块化架构和包的管理，了解pip命令、集成安装方法和文件安装方法。
+2. 掌握import和from方式。
+:::
+:::info 对标内容
+- 掌握第三方库（模块）的功能、获取、安装、调用等。
+:::
+### 6.1 第三方库的获取、安装与调用
+::::note  扩展
+#### 6.1.1  第三方库的获取、安装方法
+:::tip 安装Python第三方库的3种方法
+1. 使用pip命令；
+2. 集成安装方法；
+3. 文件安装方法。
+:::
+1. 使用pip命令
+    - pip是Python的包管理工具，用于安装和管理Python包。
+    - 可以使用pip命令来安装第三方库，例如：
+        ```python
+        pip install numpy
+        ```
+        这将安装名为numpy的第三方库。
+2. 集成安装方法
+    - 可以使用集成开发环境（IDE）来安装第三方库，例如：
+        - PyCharm：在PyCharm中，可以使用“File”>“Settings”>“Project Interpreter”来安装第三方库。
+        - Visual Studio Code：在Visual Studio Code中，可以使用“View”>“Command Palette”>“Python: Install Package”来安装第三方库。
+3. 文件安装方法
+    - 可以将第三方库的安装文件下载到本地，然后使用pip命令来安装，例如：
+        ```python
+        pip install C:\Users\username\Downloads\numpy-1.20.
+    - 可以将第三方库的安装文件下载到本地，然后使用pip命令来安装，例如：
+        ```python
+        pip install C:\Users\username\Downloads\numpy-1.20.8-win_amd64.whl
+        ```
+        这将安装名为numpy的第三方库。
+### 6.2 第三方库的导入方法
+- 使用Python进行编程时，有些功能没必要自己实现，可以借助 Python现有的标准库或者其他人提供的第三方库，如下例所示。
+    ```python
+    import numpy
+    import matplotlib.pyplot as plt
+    ```
+    - 第一行代码使用import语句导入了numpy库，第二行代码使用import语句导入了matplotlib库中的pyplot模块。
+    - 其中，numpy库提供了大量的数学函数和数组操作函数，matplotlib库提供了大量的绘图函数。
+#### 6.2.1  import 模块名1 [as 别名1], 模块名2 [as 别名2]，…
+- 使用import语句导入模块的语法格式如下：
+    ```python
+    import 模块名1 [as 别名1], 模块名2 [as 别名2], ...
+    ```
+    - 其中，模块名1、模块名2等是要导入的模块的名称，as关键字后面的别名1、别名2等是模块的别名，用于在程序中引用模块时使用。
+    - 例如，要导入numpy库和matplotlib库中的pyplot模块，可以使用以下代码：
+        ```python
+        import numpy as np
+        import matplotlib.pyplot as plt
+        ```
+        这将导入名为numpy的库，并将其别名设置为np；导入名为matplotlib的库中的pyplot模块，并将其别名设置为plt。
+#### 6.2.2  from 模块名 import 函数名1 [as 别名1], 函数名2 [as 别名2],…
+- 使用from语句导入模块中的函数的语法格式如下：
+    ```python
+    from 模块名 import 函数名1 [as 别名1], 函数名2 [as 别名2],...
+    ```
+    - 其中，模块名是要导入函数所在的模块的名称，函数名1、函数名2等是要导入的函数的名称，as关键字后面的别名1、别名2等是函数的别名，用于在程序中引用函数时使用。
+    - 例如，要导入numpy库中的sin函数和pi常量，可以使用以下代码：
+        ```python
+        from numpy import sin, pi
+        ```
+        这将导入名为numpy的库中的sin函数和pi常量。
+    - 注意，使用from语句导入函数时，只能导入函数本身，而不能导入整个模块。如果要导入整个模块，可以使用import语句。
+    - 例如，要导入numpy库，可以使用以下代码：
+        ```python
+        import numpy
+        ```
+        这将导入名为numpy的库。
+::::
+:::caution 第三方库的获取、安装与调用易错点
+1. 熟记第三方库的获取、安装方法。
+2. 理解第三方库的导入方法。
+3. 注重实操体验。
+4. 记忆相关的操作语句的语法。
+:::
+#### 6.3 模拟考题-第三方库的获取、安装与调用
+:::important 考题1 单选题
+用于安装Python第三方库的工具是（     ）。
+- A. install    B. pip[+安装Python第三方库的工具B]    C. wheel    D. setup
+:::
+[+安装Python第三方库的工具B]:
+    解析：可以用“pip install 第三方库名”安装Python第三方库。
+:::important 考题2 判断题
+使用“pip install-upgrade numpy”命令能够升级numpy科学计算扩展库。[+能够升级numpy科学计算扩展库正确]
+:::
+[+能够升级numpy科学计算扩展库正确]:
+    解析：使用“pip install-upgrade 包名”命令能够更新已安装的第三方库。
