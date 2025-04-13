@@ -88,6 +88,26 @@ const qceitseries = defineNoteConfig({
                                                 'python42'
                                           ],
                                     },
+                                    {
+                                          text: 'Python五级',
+                                          icon: 'akar-icons:python-fill',
+                                          collapsed: true,
+                                          prefix: '/qceitseries/Python/python5',
+                                          items: [
+                                                'python51',
+                                                'python52'
+                                          ],
+                                    },
+                                    {
+                                          text: 'Python六级',
+                                          icon: 'akar-icons:python-fill',
+                                          collapsed: true,
+                                          prefix: '/qceitseries/Python/python6',
+                                          items: [
+                                                'python61',
+                                                'python62'
+                                          ],
+                                    },
                               ]
                         },
                         //Python结束
