@@ -813,7 +813,783 @@ a = (x for x in range(11) if x%2==0)
 [+返回一个元组结果正确]:
     解析：程序返回的结果是```(('a', 0), ('b', 1), ('c', 2))```。
 ## 3. 字符串的转义、格式化及常用操作
+:::tip 学习要点
+1. 字符串的概念；
+2. 字符串的转义字符；
+3. 字符串的格式化；
+4. 字符串的常用操作。
+:::
+:::info 对标内容
+- 掌握字符串的相关概念及常用操作。
+:::
+:::note 情景导入
+- ==文本==是主要的信息交流方式，文本显示也是电子设备最主要的人机交互方式。文本内容在计算机领域的专业称呼叫“==字符串==”。
+- 用Python编程处理字符串，主要涉及字符串的转义字符与格式化，经过处理的文本数据更有价值，输出格式符合特定的要求。
+:::
+
+::::tip 知识点详解
+### 3.1 字符串的概念
+- 在Python中，字符串属于不可变有序序列。使用1对单引号、1对双引号、 3对单引号或3对双引号作为定界符，并且不同的定界符之间可以互相嵌套。
+- 除了支持序列通用操作(双向索引、大小比较、长度计算、元素访问、切片、成员测试等)，字符串类型还支持一些特有的用法，如字符串格式化、查找、替换等，但由于字符串属于不可变序列，不能直接对字符串对象进行元素增加、修改与删除等操作，切片操作也只能访问其中的元素，而无法修改字符串中的字符。
+#### 3.1.1 字符串的定界符
+-  ' '、" "、' ' ' ' ' '、" " " " " "和类型名称str
+- 字符串的定界符有1对单引号、1对双引号、3对单引号或3对双引号，并且不同的定界符之间可以互相嵌套，示例如下。
+    ```python
+    s1 = 'hello'
+    s2 = "hello"
+    s3 = '''hello'''
+    s4 = """hello"""
+    print(s1, type(s1))
+    print(s2, type(s2))
+    print(s3, type(s3))
+    print(s4, type(s4))
+    ```
+    - 运行结果
+    ```console
+    hello <class 'str'>
+    hello <class 'str'>
+    hello <class'str'>
+    hello <class'str'>
+    ```
+#### 3.1.2 具有不可变性与有序性
+- 字符串不支持原位改变，其中的元素在字符串中具有索引，示例如下。
+    ```python
+    s = 'hello'
+    print(s[0], s[1], s[2], s[3], s[4])
+    ```
+    - 运行结果
+    ```console
+    h e l l o
+    ```
+- 字符串中的元素具有不可变性，示例如下。
+    ```python
+    s = 'hello'
+    s[0] = 'H'
+    print(s)
+    ```
+    - 运行结果
+    ```console
+    TypeError: 'str' object does not support item assignment
+    ```
+#### 3.1.3 支持短字符串驻留机制
+- Python 支持短字符串驻留机制，不支持长字符串驻留机制。将短字符串赋值给多个不同的对象时，内存中只有一个副本，多个对象共享该副本。然而这一点并不适用于长字符串。
+- 示例如下。
+    ```python
+    s1 = 'hello'
+    s2 = 'hello'
+    print(s1 is s2)
+    s3 = 'hello world'
+    s4 = 'hello world'
+    print(s3 is s4)
+    ```
+    - 运行结果
+    ```console
+    True
+    False
+    ```
+#### 3.1.4 支持中文字符
+- Python 3.x 版本完全支持中文字符，默认使用UTF-8编码格式，无论是一个数字、英文字母，还是一个汉字，都按一个字符处理。在Python 3.x版本中甚至可以使用中文作为变量名、函数名等标识符，但不建议这样做。
+- 示例如下。
+    ```python
+    s = '你好'
+    print(s, type(s))
+    ```
+    - 运行结果
+    ```console
+    你好 <class'str'>
+    ```
+::::
+:::caution 易错点-字符串的概念
+1. 在数字型的字符串中使用max()与min()函数时，注意以ASCII（美国信息交换标准码）作为比较依据。max()与min()函数的示例如下。
+    ```python
+    print(max('123') >max('23'))
+    print(min('123') >min('23'))
+    ```
+    - 运行结果
+    ```console
+    False
+    False
+    ```
+2. 字符串是不可变序列，在实际操作中，可以给字符串变量重新赋值，变相改变相应的元素的值。在字符串切片操作时，留意“空格”字符串。
+    ```python
+    s = 'hello'
+    s = 'Hello'
+    print(s)
+    s = 'hello world'
+    print(s[0:5])
+    print(s[5:11])
+    ```
+    - 运行结果
+    ```console
+    Hello
+    hello
+     world
+    ```
+:::
+#### 3.1.5 考题模拟-字符串的概念
+:::important 例1 单选题
+```str1=" 你是大英雄"```，执行下列哪个选项可以输出"雄英大是你"（    ）
+- A. ```print((str1(0,0))```
+- B. ```print(str1[::-1])```[+执行下列哪个选项可以输出雄英大是你B]
+- C. ```print(str1[0])```
+- D. ```print(str1[0:5])```
+:::
+[+执行下列哪个选项可以输出雄英大是你B]:
+    解析：题干要求实现字符串的翻转功能，故选B。
+:::important 例2 单选题
+现在有```str1="day day up up ."```，请问 ```str1[5]``` 的值是（    ）？
+- A. d    B. a    C. day d[+现在有，请问的值是B]    D. p
+:::
+[+现在有，请问的值是B]:
+    解析：通过字符串的索引获取元素。
+:::important 例3 单选题
+Python 表达式```"Hello"+"Python"```的值为（    ）。
+- A. ```"Hello"+"Python"```       
+- B.```"HelloPython"```[+Python表达式的值为B]
+- C. ```Hello+Python```           
+- D.```"Hello Python"```
+:::
+[+Python表达式的值为B]:
+    解析：题干表达式实现字符串的连接操作。
+:::important 例4 判断题
+回文指正读和反读都相同的字符序列，如abba、abccba、12321、123321是 “回文”，abcde和ababab则不是“回文”。 在数学中具备这种特征的数就叫作回文数。假设字符变量a中存放的是一个3位数，语句```a[-1:0:-1]```能取出字符变量a中的回文数。（    ）[+能取出字符变量a中的回文数错误]
+:::
+[+能取出字符变量a中的回文数错误]:
+    解析：```a[-1:0:-1]```不能取出字符变量a中的回文数。切片不包含终值“0”。
+::::tip 知识点详解
+### 3.2 字符串的转义字符
+- 转义字符是指在字符串中某些特定的符号前加一个斜杠，之后该字符将被解释为另一种含义，不再表示本来的字符。常用的转义字符见表。
+
+| 转义字符 | 含义 |
+| :---: | :---: |
+| ```\n``` | 换行 |
+| ```\t``` | 制表符 |
+| ```\r``` | 回车 |
+| ```\b``` | 退格 |
+| ```\\``` | 反斜杠 |
+| ```\'``` | 单引号 |
+| ```\"``` | 双引号 |
+|```\ooo``` | 八进制数ooo代表的字符 |
+|```\xhh``` | 十六进制数hh代表的字符 |
+|```\uhhhh``` | Unicode码点hhhh代表的字符 |
+- 示例如下。
+    ```python :collapsed-lines=5
+    print('hello\nworld')
+    print('hello\tworld')
+    print('hello\rworld')
+    print('hello\bworld')
+    print('hello\\world')
+    print('hello\'world')
+    print('hello"world')
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    hello
+    world
+    hello    world
+    hello
+    world
+    hello'world
+    hello"world
+    ```
+::::
+:::caution 易错点-字符串的转义字符
+1. ```\ooo```、```\xhh```、```\uhhhh```这3种转义情况不太常用，要关注其用法。
+2. 留意转义字符与print()函数的结合使用。
+:::
+#### 3.2.1 考题模拟-字符串的转义字符
+:::important 例1 单选题
+赋值语句```path=r'c:\abc\xyz\tag.txt'```，执行结果是（    ）。
+- A. ```path 的值是'c:\abc\xyz\tag.txt'```
+- B. ```path 的值是'c:\bc\yz\ag.txt'```
+- C. ```path 的值是'c:\\abc\\xyz\\tag.txt'```[+赋值语句，执行结果是C]
+- D. 提示出错
+:::
+[+赋值语句，执行结果是C]:
+    解析：\\转义一个斜杠，故选C。
+:::important 例2 单选题
+执行```print('\x65')```的结果是（    ）。
+- A. \x65    B. '\x65'    C. e[+执行的结果是C]    D. A
+:::
+[+执行的结果是C]:
+    解析：```\xhh```是2位十六进制对应的字符，十六进制65转换为十进制数，对应的ASCII字符为“e”。
+:::important 例3 判断题
+Python语句```print( '池塘里' \"快乐的歌唱家\")```的输出结果是：池塘里“快乐的歌唱家”。（    ）[+的输出结果是池塘里快乐的歌唱家错误]
+:::
+[+的输出结果是池塘里快乐的歌唱家错误]:
+    解析：语法错误，正确的语句可以是：print('池塘里\"快乐的歌唱家\"')。
+::::tip 知识点详解
+### 3.3 字符串的格式化
+- Python 中字符串的格式化有%格式化方法和format()格式化方法，%格式化方法的常用符号见表。
+
+| 格式化符号 | 含义 |
+| :---: | :---: |
+| ```%c``` | 格式化字符及其ASCII码 |
+| ```%s``` | 格式化字符串 |
+| ```%d``` | 格式化整数 |
+| ```%u``` | 格式化无符号整数 |
+| ```%o``` | 格式化无符号八进制数 |
+| ```%x``` | 格式化无符号十六进制数 |
+| ```%X``` | 格式化无符号十六进制数（大写） |
+| ```%f``` | 格式化浮点数字，可指定小数点后的精度 |
+| ```%e``` | 用科学计数法格式化浮点数 |
+| ```%E``` | 作用同%e，用科学计数法格式化浮点数 |
+| ```%g``` | %f和%e的简写 |
+| ```%G``` | %f和%E的简写 |
+| ```%p``` | 用十六进制数格式化变量的地址 |
+| ```%%``` | 输出% |
+- 示例如下。
+    ```python :collapsed-lines=5
+    print('Hello %s' %'world')
+    print('Hello %s %s' %('world', 'Python'))
+    print('Hello %s %s' %('world', 123))
+    print('Hello %s %s' %('world', 123.456))
+    print('Hello %s %s' %('world', 123.456e2))
+    print('Hello %s %s' %('world', 123.456e-2))
+    print('Hello %s %s' %('world', 123.456e+2))
+    print('Hello %s %s' %('world', 123.456e-2))
+    print('Hello %s %s' %('world', 123.456e+2))
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    Hello world
+    Hello world Python
+    Hello world 123
+    Hello world 123.456
+    Hello world 12345.6
+    Hello world 1.23456
+    Hello world 12345.6
+    Hello world 1.23456
+    Hello world 12345.6
+    ```
+1. str() 函数可以将任意类型转换为字符串，示例如下。
+    ```python :collapsed-lines=5
+    print('Hello '+str(123))
+    print('Hello '+str(123.456))
+    print('Hello '+str(123.456e2))
+    print('Hello '+str(123.456e-2))
+    print('Hello '+str(123.456e+2))
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    Hello 123
+    Hello 123.456
+    Hello 12345.6
+    Hello 1.23
+    Hello 12300.0
+    ```
+2. 字符串的format()格式化方法示例如下。
+    ```python :collapsed-lines=5
+    print('Hello {}'.format('world'))
+    print('Hello {} {}'.format('world', 'Python'))
+    print('Hello {} {}'.format('world', 123))
+    print('Hello {} {}'.format('world', 123.456))
+    print('Hello {} {}'.format('world', 123.456e2))
+    print('Hello {} {}'.format('world', 123.456e-2))
+    print('Hello {} {}'.format('world', 123.456e+2))
+    print('Hello {} {}'.format('world', 123.456e-2))
+    print('Hello {} {}'.format('world', 123.456e+2))
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    Hello world
+    Hello world Python
+    Hello world 123
+    Hello world 123.456
+    Hello world 12345.6
+    Hello world 1.23456
+    Hello world 12345.6
+    Hello world 1.23456
+    Hello world 12345.6
+    ```
+3. format() 格式化方法```[:.f]```,[:x],[:o],[:b]等格式化符号示例如下。
+    ```python :collapsed-lines=5
+    print('Hello {:.2f}'.format(123.456))
+    print('Hello {:x}'.format(123))
+    print('Hello {:o}'.format(123))
+    print('Hello {:b}'.format(123))
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    Hello 123.46
+    Hello 7b
+    Hello 173
+    Hello 1111011
+    ```
+4. format() 格式化方法切片操作示例如下。
+    ```python :collapsed-lines=5
+    print('Hello {0:10.2f}'.format(123.456))
+    print('Hello {0:10x}'.format(123))
+    print('Hello {0:10o}'.format(123))
+    print('Hello {0:10b}'.format(123))
+    ```
+    - 运行结果
+    ```console :collapsed-lines=5
+    Hello     123.46
+    Hello         7b
+    Hello        173
+    Hello    1111011
+    ```
+::::
+:::caution 易错点-字符串的格式化
+1. str() 函数可以将任意类型转换为字符串,而不仅仅是将数字转换为数字字符串。
+2. 字符串format()格式化方法是高频考点，必须强化训练。
+:::
+#### 3.3.1 考题模拟-字符串的格式化
+:::important 例1 单选题
+运行下列程序，正确的结果是（    ）。
+```python
+>>>print("{:06.2f}".format(3.1415926))
+ ```
+- A. '003.14'    B. 003.14[+运行下列程序，正确的结果是B]    C. '3.14'    D. 3.14
+:::
+[+运行下列程序，正确的结果是B]:
+    解析：结果保留2位小数、6位有效数字（Python中小数点与数字前面的0都是有效数字）。
+:::important 例2 判断题
+某 Python 程序段如下,运行该程序段，输出结果是2。（    ）[+运行该程序段，输出结果是2错误]
+```python
+s = "Errors should never pass silently．"
+d = {}
+for ch in s:
+    if ch in d:
+        d[ch] += 1
+    else:
+        d[ch] = 1
+print(d["e"])
+```
+:::
+[+运行该程序段，输出结果是2错误]:
+    解析：正确的输出结果是3。
+:::important 例3 判断题
+```'{0:%}'.format(3.14)``` 返回 ```'3.140000%'```；```'{0:.2f}'.format(3.14)``` 返回 ```'3.14'```。（    ）[+314.000000错误]
+:::
+[+314.000000错误]:
+    解析：```'{0:%}'.format(3.14)``` 返回 ```'314.000000%'```。
+::::tip 知识点详解
+### 3.4 字符串的常用操作
+#### 3.4.1 find()、rfind()
+- ==find==()方法从字符串的开头开始搜索子字符串str，若在指定的beg（起始索引，包含）和end（结束索引，不包含）范围内找到子字符串，就返回子字符串在原字符串中的起始索引位置；若未在该范围内找到，则返回 - 1。
+    ```python
+    str.find(str, beg=0, end=len(string))
+    ```
+    - str -- 指定检索的字符串
+    - beg -- 开始索引，默认为0
+    - end -- 结束索引，默认为字符串的长度
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.find('o'))
+        print(str1.find('o', 1, 5))
+        print(str1.find('o', 1, 4))
+        print(str1.find('o', 1, 3))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        4
+        4
+        -1
+        -1
+        ```
+- ==rfind==() 方法用于检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，它从字符串末尾开始向前搜索，若找到子字符串，返回的是子字符串在原字符串中最后一次出现的起始索引位置；若未找到，则返回 - 1。。
+    ```python
+    str.rfind(str, beg=0, end=len(string))
+    ```
+    - str -- 指定检索的字符串
+    - beg -- 开始索引，默认为0
+    - end -- 结束索引，默认为字符串的长度
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.rfind('o'))
+        print(str1.rfind('o', 1, 5))
+        print(str1.rfind('o', 1, 4))
+        print(str1.rfind('o', 1, 3))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        7
+        4
+        -1
+        -1
+        ```
+#### 3.4.2 lower()、upper()、capitalize()、title()
+- ==lower==()方法将字符串中的大写字母转换为小写字母。
+    ```python
+    str.lower()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.lower())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        hello world
+        ```
+- ==upper==()方法将字符串中的小写字母转换为大写字母。
+    ```python
+    str.upper()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.upper())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        HELLO WORLD
+        ```
+- ==capitalize==()方法将字符串的第一个字母大写，其他字母小写。
+    ```python
+    str.capitalize()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.capitalize())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        Hello world
+        ```
+- ==title==()方法将字符串的每个单词首字母大写，其他字母小写。
+    ```python
+    str.title()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.title())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        Hello World
+        ```
+#### 3.4.3  strip()、rstrip()、lstrip()
+- ==strip==()方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列。
+    ```python
+    str.strip([chars])
+    ```
+    - chars -- 移除字符串头尾指定的字符序列
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.strip())
+        print(str1.strip('d'))
+        print(str1.strip('dle'))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        hello world
+        hello worl
+        hello wor
+        ```
+- ==rstrip==()方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列。
+    ```python
+    str.rstrip([chars])
+    ```
+    - chars -- 移除字符串头尾指定的字符序列
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.rstrip())
+        print(str1.rstrip('d'))
+        print(str1.rstrip('dle'))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        hello world
+        hello worl
+        hello wor
+        ```
+- ==lstrip==()方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列。
+    ```python
+    str.lstrip([chars])
+    ```
+    - chars -- 移除字符串头尾指定的字符序列
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.lstrip())
+        print(str1.lstrip('h'))
+        print(str1.lstrip('hel'))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        hello world
+        ello world
+        o world
+        ```
+#### 3.4.4 replace()、startswith()、endswith()、isnumeric()、isalpha()
+- ==replace==()方法用于将字符串中的 str1 替换成 str2,如果 count 指定，则替换不超过 count 次。
+    ```python
+    str.replace(str1, str2,  count=string.count(str1))
+    ```
+    - str1 -- 将被替换的子字符串。
+    - str2 -- 新字符串，用于替换str1子字符串。
+    - count -- 可选字符串, 替换不超过 count 次。
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.replace('o', 'O'))
+        print(str1.replace('o', 'O', 1))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        hellO wOrld
+        hellO world
+        ```
+- ==startswith==()方法用于检查字符串是否是以指定子字符串开头，如果是则返回 True，否则返回 False。如果参数 beg 和 end 指定值，则在指定范围内检查。
+    ```python
+    str.startswith(str, beg=0,end=len(string))
+    ```
+    - str -- 检测的字符串。
+    - beg -- 可选参数用于设置字符串检测的起始位置。
+    - end -- 可选参数用于设置字符串检测的结束位置。
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.startswith('h'))
+        print(str1.startswith('he'))
+        print(str1.startswith('he', 1, 5))
+        print(str1.startswith('he', 1, 4))
+        print(str1.startswith('he', 1, 3))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        True
+        True
+        False
+        False
+        False
+        ```
+- ==endswith==()方法用于判断字符串是否以指定后缀结尾，如果以指定后缀结尾返回True，否则返回False。可选参数"start"与"end"为检索字符串的开始与结束位置。
+    ```python
+    str.endswith(suffix, beg=0, end=len(string))
+    ```
+    - suffix -- 该参数可以是一个字符串或者是一个元素。
+    - beg -- 字符串中的开始位置。
+    - end -- 字符中结束位置。
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'hello world'
+        print(str1.endswith('d'))
+        print(str1.endswith('d', 1, 5))
+        print(str1.endswith('d', 1, 4))
+        print(str1.endswith('d', 1, 3))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        True
+        False
+        False
+        False
+        ```
+- ==isnumeric==()方法检测字符串是否只由数字组成。这种方法是只针对unicode对象。
+    ```python
+    str.isnumeric()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = '12345'
+        print(str1.isnumeric())
+        str2 = '12345a'
+        print(str2.isnumeric())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        True
+        False
+        ```
+- ==isalpha==()方法检测字符串是否只由字母组成。
+    ```python
+    str.isalpha()
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        str1 = 'abcde'
+        print(str1.isalpha())
+        str2 = 'abcde1'
+        print(str2.isalpha())
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        True
+        False
+        ```
+- ==注意==：介绍的这些方法不会修改原始字符串，而是返回一个新的字符串对象。
+::::
+:::caution 易错点-字符串的常用操作
+1. 执行字符串的各种操作，都不会改变原字符串本身，可以通过重新赋值的方法变相改变字符串。
+2. 字符串的常用操作通常会以小段程序的形式出现在考试当中，要加强程序编写的训练。
+:::
+#### 3.4.5 考题模拟-字符串的常用操作
+:::important 例1 单选题        
+现有字符串```S= "Where there's a will there's a way."```, 现在需要计算并输出字符串S中'e'出现的次数，正确的语句是（    ）。[+现在需要计算并输出字符串S中C]
+- A. ```print(S.find('e',1))```
+- B. ```print(S.index('e'))```
+- C. ```print(S.count('e'))```
+- D. ```print(S.index('e',0,len(S)))```
+:::
+[+现在需要计算并输出字符串S中C]:
+    解析：S.count() 方法实现统计子串在字符串中出现的次数。
+:::important 例2 判断题
+在Python中设定字符串```str="Hello Python"```，则 ```str.find('w')``` 返 回 值 为0。（    ）[+在Python中设定字符串错误]
+:::
+[+在Python中设定字符串错误]:
+    解析：未找到，返回-1。
+:::important 例3 判断题
+```python
+>>>str='nihao\nliping\nzhang san'
+>>> str.split()
+```
+结果是：```['nihao', 'liping', 'zhang', 'san']```。（    ）[+3453结果是正确]
+:::
+[+3453结果是正确]:
+    解析：在调用split()方法时，若不传递任何参数，则会使用任意空白字符（包括空格、换行符、制表符等）作为分隔符；若字符串存在连续的空白字符，则按一个空白字符对待，并且返回结果中不包含任何空字符串。
+
 ## 4. range类型的用法及常用操作
+:::tip 学习要点
+1. range类型的概念；
+2. range类型的用法；
+3. range类型的常用操作。
+:::
+:::info 对标内容
+- 掌握range类型的用法及常用操作。
+:::
+:::note  情景导入
+- 按照学号，分别统计全班40位同学的考试平均分，可以采用循环结构处理成绩数据，循环次数是明确的。在Python中，我们可以使用range类型构造循环执行的范围（1~40号）。
+:::
+::::tip 知识点详解
+### 4.1 range类型的概念
+- range类型是Python中的一种不可变序列类型，用于表示一个整数序列。它通常用于循环结构中，生成一个整数序列，然后对序列中的每个元素执行相同的操作。
+    ```python
+    range(stop)
+    range(start, stop[, step])
+    ```
+    - start：可选参数，表示序列的起始值，默认为0。
+    - stop：必选参数，表示序列的结束值（不包含）。
+    - step：可选参数，表示序列中相邻元素之间的差值，默认为1。
+    - 示例如下。
+        ```python :collapsed-lines=5
+        print(range(5))
+        print(range(1, 5))
+        print(range(1, 5, 2))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        range(0, 5)
+        range(1, 5)
+        range(1, 5, 2)
+        ```
+    - 注意：range类型的元素是不可变的，因此不能对其进行修改。
+#### 4.1.1 range类型的定界符range()和类型名称range
+- 可以用range(起始值,终止值,步长)来定界一个range类型，括号内的参 数用逗号分隔。用内置函数type()检测其类型为range。
+    ```python
+    range(起始值,终止值,步长)
+    type(range(起始值,终止值,步长))
+    ```
+    - 示例如下。
+        ```python :collapsed-lines=5
+        print(range(1, 10, 2))
+        print(type(range(1, 10, 2)))
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        range(1, 10, 2)
+        <class 'range'>
+        ```
+- 具有不可变性与有序性
+    - range类型具有不可变性，即不能修改其中的元素；
+        - 示例如下。
+            ```python :collapsed-lines=5
+            r = range(1, 10, 2)
+            r[0] = 0
+            ```
+            - 运行结果
+            ```console :collapsed-lines=5
+            TypeError: 'range' object does not support item assignment
+            ```
+    - range类型具有有序性，即可以通过索引访问其中的元素。
+        - 示例如下。
+            ```python :collapsed-lines=5
+            r = range(1, 10, 2)
+            print(r[0])
+            print(r[1])
+            print(r[2])
+            ```
+            - 运行结果
+            ```console :collapsed-lines=5
+            1
+            3
+            5
+            ```
+    - 遍历range范围
+        ```python :collapsed-lines=5
+        r = range(1, 10, 2)
+        for i in r:
+            print(i)
+        ```
+        - 运行结果
+        ```console :collapsed-lines=5
+        1
+        3
+        5
+        7
+        9
+        ```
+::::
+:::caution 易错点-range类型的用法及常用操作
+1. range类型生成的序列不会包括给定的终止值。
+2. range类型具有不可变序列的某些特性。
+:::
+#### 4.1.2 考题模拟-range类型的用法及常用操作
+:::important 例1 单选题
+对于```r=range(5)```，合法的方法是（    ）。
+A. ```r[2]=8```    B. ```del r[2]```    C. ```r.pop()```    D. ```r.count(2)```[+4121合法的方法是D]
+:::
+[+4121合法的方法是D]:
+    解析：range类型具有不可变序列的某些特性，故选D。
+:::important 例2 单选题
+下列语句的输出结果是（    ）。
+```python
+for i in "xyz":
+    for j in range(3):
+      print(i,end=' ')
+          if  i=="z":
+              break
+```
+- A. xxxyzzz        
+- B. xxxyyyz[+4122下列语句的输出结果是B]
+- C. xxxyyyzzz     
+- D. xyyyzzz
+:::
+[+4122下列语句的输出结果是B]:
+    解析：x打印3次，y打印3次，z打印1次，退出循环。
+:::important 例3 单选题
+下列程序为求1~100所有偶数之和，则在①处应填入（    ）。
+```python
+ans = 0
+for i in range( ① ):
+    ans += i
+print(ans)
+```
+- A. 1,100,2        
+- B. 1,101,2        
+- C. 2,101,2 [+下列程序为求1~100所有偶数之和，则在①处应填入C]       
+- D. 2,100,2
+:::
+[+下列程序为求1~100所有偶数之和，则在①处应填入C]:
+    解析：起始值为2，终止值包含100，步长为2，所以为（2,101,2）。
+:::important 例4 判断题
+```python
+>>> list(enumerate(range(3)))
+```
+返回值为```[(0, 0), (1, 1), (2, 2)]```。（    ）[+4124返回值为]
+:::
+[+4124返回值为]:
+    解析：enumerate()函数将在从range()内取到的每个元素前面加上索引号。
+
 ## 5. 字典类型的用法及常用操作
 ## 6. 集合类型的用法及常用操作
 ## 7. 序列解包的运用
