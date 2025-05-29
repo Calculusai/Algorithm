@@ -17,9 +17,9 @@ export default {
         },
         auth: {
           type: 'token',
-          token: 'pat_YTSKz8N06MzhxtiQeLe5C5V4i5rwYS4KAwauvHAJ9L9awhXTROyvrQTNmtG75xIc',
+          token: 'pat_zgMW7Uk2tdAgZPuUFh8Tb73wuUU5FL5gypI3hehTFwoOJCL8C7qWYVqN30wcCphg',
           onRefreshToken: function () {
-            return 'pat_YTSKz8N06MzhxtiQeLe5C5V4i5rwYS4KAwauvHAJ9L9awhXTROyvrQTNmtG75xIc';
+            return 'pat_zgMW7Uk2tdAgZPuUFh8Tb73wuUU5FL5gypI3hehTFwoOJCL8C7qWYVqN30wcCphg';
           },
           allowPersonalAccessTokenInBrowser: true
         },

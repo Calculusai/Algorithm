@@ -2070,34 +2070,39 @@ A. 1    B. 3    C. 4    D. 5
 :::code-tabs
 @tab 伪代码
 ```text :collapsed-lines=5
-算法: 插入排序
-输入: 包含 n 个元素的数组 a
-输出: 按升序排序好的数组 a
-步骤:
-    1. 设置 count 为数组 a 的长度
-    2. 外层循环：
-        对于 i 从 1 到 count - 1 执行以下操作：
-            2.1 设置 key 为 a[i]
-            2.2 设置 j 为 i - 1
-            2.3 内层循环：
-                当 j 大于等于 0 并且 a[j] 大于 key 时执行以下操作：
-                    2.3.1 将 a[j] 的值赋给 a[j + 1]
-                    2.3.2 将 j 的值减 1
-            2.4 将 key 的值赋给 a[j + 1]
-    3. 返回排序好的数组 a
+InsertionSort(array A)
+    n = length(A)
+    for i = 2 to n do
+        key = A[i]
+        for j = i-1 downto 1 do
+            if A[j] > key then
+                A[j+1] = A[j]  // 元素后移
+                A[j] = key     // 插入当前元素
+            else
+                break          // 找到正确位置，退出循环
+            end if
+        end for
+    end for
+    return A
+end function
 ```
 @tab Python
 ```Py :collapsed-lines=5
-a=[5,3,5,2,8]             
+a = [5, 3, 5, 2, 8]
 count = len(a)
+
+# 外层循环控制当前需要插入的元素位置
 for i in range(1, count):
-    key = a[i]
-    j = i - 1
-    while j >= 0 and a[j] > key:
-        a[j + 1] = a[j]
-        j -= 1
-        a[j+1] = key
-print(a)
+    key = a[i]  # 保存当前需要插入的元素
+    # 内层循环向前查找插入位置，并移动元素
+    for j in range(i - 1, -1, -1):
+        if a[j] > key:
+            a[j + 1] = a[j]  # 元素后移
+            a[j] = key       # 插入当前元素
+        else:
+            break  # 找到正确位置后退出循环
+
+print("排序后的数组：", a)  # 输出结果：[2, 3, 5, 5, 8]
 ```
 :::
 + 运行结果：
